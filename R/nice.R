@@ -108,3 +108,46 @@ littleHeader <- function() {
     }
   }
 }
+
+toutbeau2 = function(x){
+  x <- gsub("\n", " ", x)
+  x <- gsub("\t", " ", x)
+  x <- gsub("^[# ]+", "", x)
+  x <- gsub("[# =]+$", " ", x)
+  x <- gsub(" $", " ", x)
+
+  res <- paste(rep("#", 80), collapse = "") %+% 
+    "\n##########" %+% 
+    paste(rep(" ",floor((80-nchar(x)-20)/2)), collapse = "") %+%
+    x %+% 
+    paste(rep(" ",ceiling((80-nchar(x)-20)/2)), collapse = "") %+%
+    "##########\n" %+% 
+    paste(rep("#", 80), collapse = "")
+  return(res)
+}
+
+littleboxes2 <- function() {
+  context <- rstudioapi::getActiveDocumentContext()
+  for (sel in context$selection) {
+    # print(sel)
+    if (sel$text != "") {
+      rstudioapi::modifyRange(sel$range, toutbeau2(sel$text),
+                              context$id)
+      break
+    } else {
+      
+      lign <- context$selection[[1]]$range$start[["row"]]
+      value <- context$contents[lign]
+      range <- structure(list(start = structure(c(lign,
+                                                  1), .Names = c("row", "column"), class = "document_position"),
+                              end = structure(c(lign, 77777), .Names = c("row",
+                                                                         "column"), class = "document_position")), .Names = c("start",
+                                                                                                                              "end"), class = "document_range")
+      
+      if (value != "") {
+        rstudioapi::modifyRange(range, toutbeau(value),
+                                context$id)
+      }
+    }
+  }
+}

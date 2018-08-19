@@ -8,3 +8,8 @@ Name: Little Header
 Description: Canned titles in #comments in a line
 Binding: littleHeader
 Interactive: false
+
+Name: Little Boxes 2
+Description: Canned titles in #comments
+Binding: littleboxes2
+Interactive: false
